@@ -26,7 +26,7 @@ export const signupUser = async (payload) => {
 };
 
 export async function loginUser(credentials) {
-  const response = await fetch("http://localhost:5000/api/auth/login", {
+  const response = await fetch("https://iamverse-backend-g0fo.onrender.com/api/auth/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(credentials),
@@ -104,7 +104,7 @@ export const loginWithGoogle = async (credential) => {
 };
 
 export async function sendOtp(email) {
-  const response = await fetch("http://localhost:5000/api/auth/forgot-password/send-otp", {
+  const response = await fetch("https://iamverse-backend-g0fo.onrender.com/api/auth/forgot-password/send-otp", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email }),

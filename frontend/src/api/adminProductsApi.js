@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:5000/api/admin/products",
+  baseURL: "https://iamverse-backend-g0fo.onrender.com/api/admin/products",
 });
 
 const getAuthHeaders = () => {

@@ -9,7 +9,8 @@ const rateLimit = require("express-rate-limit");
 dotenv.config();
 
 const app = express();
-
+// Trust Render proxy
+app.set("trust proxy", 1);
 // ----------------------
 // Security middleware
 // ----------------------

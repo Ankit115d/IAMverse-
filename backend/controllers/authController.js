@@ -97,6 +97,9 @@ const signup = async (req, res) => {
       };
 
       insertOne(USERS_FILE, user);
+      console.log("NEW USER SAVED:", user.email);
+
+
 
       const token = jwt.sign(
         { id: user.uid, uid: user.uid, email: user.email, role: user.role },
@@ -194,7 +197,14 @@ const sendForgotPasswordOtp = async (req, res) => {
       });
     }
 
-    const user = findOne(USERS_FILE, (u) => u.email === normalizedEmail);
+const user = findOne(
+  USERS_FILE,
+  (u) => u.email === normalizedEmail
+);
+
+console.log("LOGIN EMAIL:", normalizedEmail);
+console.log("USER FOUND:", user);
+
 
     if (user) {
       const otp = generateOtp();

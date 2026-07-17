@@ -55,6 +55,11 @@ function insertOne(filename, record) {
   const records = readJSON(filename);
   records.push(record);
   writeJSON(filename, records);
+
+  console.log("File:", filename);
+  console.log("Saved user count:", records.length);
+  console.log("Saved email:", record.email);
+
   return record;
 }
 

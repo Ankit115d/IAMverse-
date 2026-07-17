@@ -123,39 +123,66 @@ const signup = async (req, res) => {
 };
 
 // ─── Login ────────────────────────────────────────────────────────────────────
-
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return res.status(400).json({ success: false, message: "Email and password are required" });
+      return res.status(400).json({
+        success: false,
+        message: "Email and password are required",
+      });
     }
 
     const normalizedEmail = email.toLowerCase().trim();
+
+    console.log("LOGIN REQUEST:", normalizedEmail);
+
     const user = findOne(USERS_FILE, (u) => u.email === normalizedEmail);
 
+    console.log("USER FOUND:", user);
+
     if (!user) {
-      return res.status(400).json({ success: false, message: "Invalid credentials" });
+      return res.status(400).json({
+        success: false,
+        message: "Invalid credentials",
+      });
     }
 
     if (!user.isActive) {
-      return res.status(403).json({ success: false, message: "Account is inactive" });
+      return res.status(403).json({
+        success: false,
+        message: "Account is inactive",
+      });
     }
 
     const isMatch = await bcrypt.compare(password, user.passwordHash);
+
+    console.log("PASSWORD MATCH:", isMatch);
+
     if (!isMatch) {
-      return res.status(400).json({ success: false, message: "Invalid credentials" });
+      return res.status(400).json({
+        success: false,
+        message: "Invalid credentials",
+      });
     }
 
     updateOne(
       USERS_FILE,
       (u) => u.uid === user.uid,
-      (u) => ({ lastLogin: new Date().toISOString(), loginCount: (u.loginCount || 0) + 1 })
+      (u) => ({
+        lastLogin: new Date().toISOString(),
+        loginCount: (u.loginCount || 0) + 1,
+      })
     );
 
     const token = jwt.sign(
-      { id: user.uid, uid: user.uid, email: user.email, role: user.role },
+      {
+        id: user.uid,
+        uid: user.uid,
+        email: user.email,
+        role: user.role,
+      },
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
     );
@@ -167,8 +194,11 @@ const login = async (req, res) => {
       user: publicProfile(user),
     });
   } catch (error) {
-    console.error("LOGIN ERROR:", error.message);
-    return res.status(500).json({ success: false, message: "Login failed" });
+    console.error("LOGIN ERROR:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Login failed",
+    });
   }
 };
 

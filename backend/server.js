@@ -23,7 +23,11 @@ app.disable("x-powered-by");
 // CORS: allow your Vite dev and future frontend
 app.use(
   cors({
-    origin: process.env.CLIENT_ORIGIN || "http://localhost:5173",
+    origin: [
+      "http://localhost:5173",
+      "https://iamverse-frontend.onrender.com"
+    ],
+    credentials: true
   })
 );
 
